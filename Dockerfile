@@ -10,15 +10,15 @@ RUN apt-get update --fix-missing && apt-get install -y --no-install-recommends a
 	curl \
 	net-tools \
 	openjdk-8-jdk \
+	ssh \
 	vim 
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/	
 	
 #RUN apt-get update  --fix-missing  \
     #&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openjdk-8-jdk --fix-missing  \
-
     #&& rm -rf /var/lib/apt/lists/*
-   
+
 
 
 #RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends net-tools curl
@@ -106,6 +106,7 @@ RUN set -x \
 #    && gpg --verify /tmp/maven.tar.gz.asc \
 RUN mkdir -p /opt/maven/ && mv /opt/apache-maven-$MAVEN_VERSION /opt/maven/$MAVEN_VERSION
 RUN ln -s /opt/maven/$MAVEN_VERSION /opt/maven/latest
+RUN service ssh start
 ENV MAVEN_HOME=/opt/maven/$MAVEN_VERSION
 
 
