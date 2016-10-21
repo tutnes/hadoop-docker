@@ -1,29 +1,22 @@
 FROM ubuntu:16.04
 #Forked from Naimdjon Takhirov <naimdjon@takhirov.name> https://github.com/naimdjon/hadoop-docker
 
-
 ENV HADOOP_VERSION 2.7.3 
 ENV PIG_VERSION 0.16.0
 ENV MAVEN_VERSION 3.3.9 
 
-RUN apt-get update --fix-missing && apt-get install -y --no-install-recommends aptitude \
+RUN apt-get update && apt-get install -y --no-install-recommends --fix-missing \
+	aptitude \
 	curl \
+	mc \
 	net-tools \
 	openjdk-8-jdk \
 	ssh \
-	vim 
+	vim \
+&& rm -rf /var/lib/apt/lists/*	
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/	
 	
-#RUN apt-get update  --fix-missing  \
-    #&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openjdk-8-jdk --fix-missing  \
-    #&& rm -rf /var/lib/apt/lists/*
-
-
-
-#RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends net-tools curl
-
-
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys \
     07617D4968B34D8F13D56E20BE5AAA0BA210C095 \
     2CAC83124870D88586166115220F69801F27E622 \
@@ -112,4 +105,7 @@ ENV MAVEN_HOME=/opt/maven/$MAVEN_VERSION
 
 ENV USER=root
 ENV PATH $PIG_HOME/bin/:$HADOOP_HOME/bin/:$MAVEN_HOME/bin:$PATH
+#COPY start.sh /root/start.sh
+#RUN chmod +x /root/start.sh
 CMD ["/bin/bash"]
+#CMD ["/root/start.sh"]
